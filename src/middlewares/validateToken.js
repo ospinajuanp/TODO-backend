@@ -5,7 +5,6 @@ import { TOKEN_SECRET } from '../config.js'
 const authMiddleware = (req, res, next) => {
     const token = req.cookies.token; // para recibir el token
 
-    console.log('estoy validando token')
     if (!token) { // si no hay token
         return res.status(401).json({ status: 401, message: 'No Token, Unauthorized' });
     }

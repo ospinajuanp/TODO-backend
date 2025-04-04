@@ -8,7 +8,7 @@ export const getPosts = async (req, res) => {
 
 export const getPostId = async (req, res) => {
     const post = await Posts.findById(req.params.id).populate('user')
-    console.log(post)
+    
     if (!post) {
         return res.status(404).json({ status: 404, message: 'Post not found' })
     }
