@@ -3,7 +3,6 @@ import User from '../models/user.model.js'
 import {connectDB} from '../db.js'
 
 export const getPosts = async (req, res) => {
-    await connectDB();
     const posts = await Posts.find().populate('user')
     res.json(posts)
 }
