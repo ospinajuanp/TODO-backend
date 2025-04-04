@@ -1,7 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
-// import cors from 'cors'
+import cors from 'cors'
 
 import authRoutes from './routes/auth.routes.js'
 import taskRoutes from './routes/tasks.route.js'
@@ -14,6 +14,9 @@ const app = express()
 //     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 //     credentials: true
 // }));
+
+app.use(cors());
+
 
 app.use(morgan('dev')) // para ver las peticiones
 app.use(express.json()) // para poder recibir y leer json
