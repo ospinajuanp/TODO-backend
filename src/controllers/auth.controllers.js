@@ -8,6 +8,12 @@ export const register = async (req, res) => { // para crear un usuario
 
     // para guardar el usuario
     try {
+        const userFound = await User.findOne({ email })
+
+        if (userFound) {
+            return res.status(400).json({ status: 400, message: 'Email already exists' })
+        }
+
         const passwordHash = await  bcrypt.hash(password, 10) // Espera la encriptaron
         const user = new User({ name, email, password: passwordHash });
         const userSaved = await user.save(); // Guarda en la BD

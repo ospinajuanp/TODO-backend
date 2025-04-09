@@ -15,7 +15,7 @@ const app = express()
 //     credentials: true
 // }));
 
-app.use(cors());
+app.use(cors()); // para permitir cualquier origen
 
 
 app.use(morgan('dev')) // para ver las peticiones
