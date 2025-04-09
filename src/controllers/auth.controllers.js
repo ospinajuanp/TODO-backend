@@ -1,6 +1,8 @@
 import User from '../models/user.model.js'
 import bcrypt from 'bcryptjs';
 import { createAccesToken } from '../libs/jwt.js'
+import jwt from 'jsonwebtoken'
+import { TOKEN_SECRET } from '../config.js'
 
 // para crear un usuario
 export const register = async (req, res) => { // para crear un usuario
@@ -61,7 +63,7 @@ export const login = async (req, res) => {
 
         const token = await createAccesToken({ id: userFound._id }); // Crea el token
         
-        res.cookie('token', token, { httpOnly: true }) // para enviar el token como cookie 
+        res.cookie('token', token) // para enviar el token como cookie 
         res.json({ // para enviar la respuesta 
             status: 200, // para indicar que la operación fue exitosa
             message: 'User login successfully', // para indicar el mensaje de éxito
@@ -99,4 +101,26 @@ export const profile = async (req, res) => {
         email: userFound.email
     } })
 
+}
+
+export const verifyToken = async (req, res) => {
+    const { token } = req.cookies
+    if (!token) {
+        return res.status(401).json({ status: 401, message: 'Unauthorized' })
+    }
+
+    jwt.verify(token, TOKEN_SECRET,async (err, user) => {
+        if (err) {
+            return res.status(401).json({ status: 401, message: 'Unauthorized' })
+        }
+        const userFound = await User.findById(user.id)
+        if (!userFound) {
+            return res.status(401).json({ status: 401, message: 'Unauthorized' })
+        }
+        return res.json({
+            id: userFound._id,
+            name: userFound.name,
+            email: userFound.email
+        })
+    })
 }

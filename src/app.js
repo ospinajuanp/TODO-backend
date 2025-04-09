@@ -15,7 +15,11 @@ const app = express()
 //     credentials: true
 // }));
 
-app.use(cors()); // para permitir cualquier origen
+app.use(cors({
+    origin:  'http://localhost:5173', // o '*' para permitir todos (solo en pruebas)
+    credentials: true,
+}
+)); // para permitir cualquier origen
 
 
 app.use(morgan('dev')) // para ver las peticiones
